@@ -19,19 +19,18 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: A) Define our variables
+      - name: A) Define variables
         run: |
           # Set these variables to push on Docker hub:
           echo "devmtl" > DOCKERHUB_USER
           echo "Dockerfile" > DOCKERFILE_NAME
-          # Done? > add secret DOCKERHUB_USER on Github
           #
-          ## Set these variables to push on Github Package Registry (GPR)
+          # Set these variables to push on Github Package Registry (GPR)
           echo "firepress" > GITHUB_USER
           echo "firepress-org" > GITHUB_ORG
           echo "registry" > GITHUB_REGISTRY
           #
-          # Those variables are logically defined
+          # Logically defined
           cat Dockerfile | grep APP_NAME= | head -n 1 | grep -o '".*"' | sed 's/"//g' > APP_NAME
           cat Dockerfile | grep VERSION= | head -n 1 | grep -o '".*"' | sed 's/"//g' > VERSION
           date -d "-4 hours" "+%Y-%m-%d_%HH%Ms%S" > DATE_IT
@@ -39,47 +38,51 @@ jobs:
           echo "$(cat DOCKERHUB_USER)/$(cat APP_NAME)" > DOCKER_USER_APP
           echo "$(cat GITHUB_USER)/$(cat APP_NAME)" > GITHUB_USER_APP
           #
-          # The way we define vars above is a hack. See why: https://bit.ly/2ZEAt6u
+          # Tags are logically defined
+          echo "$(cat DOCKER_USER_APP):$(cat VERSION)_$(cat DATE_IT)_$(cat SHORT_COMMIT_HASH)" > TAG_BEST_PRACTICE
+          echo "$(cat DOCKER_USER_APP):stable" > TAG_STABLE
+          echo "$(cat DOCKER_USER_APP):latest" > TAG_LATEST
+          echo "$(cat DOCKER_USER_APP):$(cat VERSION)" > TAG_VERSION
+          #
+          # The way we define variables above is a hack. See why: https://bit.ly/2ZEAt6u
 
-      - name: B1) Build image
+      - name: B) Build
         run: |
           # UAT is User Acceptance Testing
           echo "$(cat APP_NAME):uat" > TAG_UAT
           docker build --file $(cat DOCKERFILE_NAME) --tag $(cat TAG_UAT) .
+          #
+          docker build --file $(cat DOCKERFILE_NAME) --tag $(cat TAG_BEST_PRACTICE) .
+          docker build --file $(cat DOCKERFILE_NAME) --tag $(cat TAG_VERSION) .
+          docker build --file $(cat DOCKERFILE_NAME) --tag $(cat TAG_STABLE) .
+          docker build --file $(cat DOCKERFILE_NAME) --tag $(cat TAG_LATEST) .
+          #
+          # build for Github Package Registry (GPR)
 
-      - name: B2) Test image with docker-library
+      - name: C1) Test image with docker-library
         run: |
           git clone https://github.com/docker-library/official-images.git official-images
           official-images/test/run.sh $(cat TAG_UAT)
 
-      - name: B3) Test image with Aquasec microscanner
+      - name: C2) Test image with Aquasec microscanner
         run: |
           wget --retry-connrefused --waitretry=1 --read-timeout=5 --timeout=5 --tries=10 https://raw.githubusercontent.com/lukebond/microscanner-wrapper/master/scan.sh && chmod +x scan.sh
           #
           echo "The build will stop only if it finds a critical issue"
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest -q --exit-code 1 --severity CRITICAL $(cat TAG_UAT)
 
-      - name: C1) Log / tags and variables
+      - name: D1) Log / tags and variables
         run: |
-          echo "$(cat DOCKER_USER_APP):$(cat VERSION)_$(cat DATE_IT)_$(cat SHORT_COMMIT_HASH)" > TAG_BEST_PRACTICE
-          echo "$(cat DOCKER_USER_APP):stable" > TAG_STABLE
-          echo "$(cat DOCKER_USER_APP):latest" > TAG_LATEST
-          echo "$(cat DOCKER_USER_APP):$(cat VERSION)" > TAG_VERSION
-          #
-          echo " "
           echo "Check out https://hub.docker.com/r/$(cat DOCKERHUB_USER)/$(cat APP_NAME)/tags"
-          #
           echo " "
           echo "$(cat TAG_BEST_PRACTICE) < TAG_BEST_PRACTICE"
           echo "$(cat TAG_VERSION) < TAG_VERSION"
           echo "$(cat TAG_STABLE) < TAG_STABLE"
           echo "$(cat TAG_LATEST) < TAG_LATEST"
-          #
           echo " "
           echo "$(cat APP_NAME) < APP_NAME"
           echo "$(cat VERSION) < VERSION"
           echo "$(cat DOCKERFILE_NAME) < DOCKERFILE_NAME"
-          #
           echo " "
           echo "$(cat DATE_IT) < DATE_IT"
           echo "$(cat SHORT_COMMIT_HASH) < SHORT_COMMIT_HASH"
@@ -90,27 +93,15 @@ jobs:
           echo "$(cat GITHUB_USER_APP) < GITHUB_USER_APP"
           echo "$(cat GITHUB_REGISTRY) < GITHUB_REGISTRY"
 
-      - name: C2) Log / docker inspect
+      - name: D1) Log / docker (inspect, history, version, info), uname
         run: |
           docker inspect $(cat TAG_UAT)
           docker history $(cat TAG_UAT)
-
-      - name: C3) Log / docker version and docker version info
-        run: |
           docker version
           docker info
           uname -a
 
-      - name: D) Build all tags
-        run: |
-          docker build --file $(cat DOCKERFILE_NAME) --tag $(cat TAG_BEST_PRACTICE) .
-          docker build --file $(cat DOCKERFILE_NAME) --tag $(cat TAG_VERSION) .
-          docker build --file $(cat DOCKERFILE_NAME) --tag $(cat TAG_STABLE) .
-          docker build --file $(cat DOCKERFILE_NAME) --tag $(cat TAG_LATEST) .
-          #
-          # build for Github Package Registry (GPR)
-
-      - name: E) Push to registry
+      - name: E) Publish
         run: |
           echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username $(cat DOCKERHUB_USER) --password-stdin
           docker push $(cat TAG_BEST_PRACTICE)
@@ -118,10 +109,10 @@ jobs:
           docker push $(cat TAG_STABLE)
           docker push $(cat TAG_LATEST)
           #
-          # push on GPR
-          echo "ToDo/ docker build -t docker.pkg.github.com/$(cat GITHUB_ORG)/$(cat GITHUB_REGISTRY)/$(cat TAG_BEST_PRACTICE)"
-          echo "ToDo/ docker login docker.pkg.github.com -u $(cat GITHUB_USER) -p ${{ secrets.GPR_PASS }}"
-          echo "ToDo/ docker push docker.pkg.github.com/$(cat GITHUB_ORG)/$(cat GITHUB_REGISTRY)/$(cat TAG_BEST_PRACTICE)"
+          # push on Github Package Registry (GPR)
+          # echo "ToDo/ docker build -t docker.pkg.github.com/$(cat GITHUB_ORG)/$(cat GITHUB_REGISTRY)/$(cat TAG_BEST_PRACTICE)"
+          # echo "ToDo/ docker login docker.pkg.github.com -u $(cat GITHUB_USER) -p ${{ secrets.GPR_PASS }}"
+          # echo "ToDo/ docker push docker.pkg.github.com/$(cat GITHUB_ORG)/$(cat GITHUB_REGISTRY)/$(cat TAG_BEST_PRACTICE)"
 
   # Push README.md on the Docker hub's "Full Description" section
   Job2:
@@ -137,7 +128,7 @@ jobs:
           cat Dockerfile | grep APP_NAME= | head -n 1 | grep -o '".*"' | sed 's/"//g' > APP_NAME
           echo "$(cat DOCKERHUB_USER)/$(cat APP_NAME)" > DOCKER_USER_APP
       
-      # Buggy at the moment
+      # Buggy at the moment :-(
       #
       #- name: F2) Update Dockerhub's Full Description
       #  uses: docker://mpepping/docker-hub-metadata-github-action
