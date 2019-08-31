@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: A) Define variables
+      - name: Define variables
         run: |
           # Set these variables to push on Docker hub:
           echo "devmtl" > DOCKERHUB_USER
@@ -46,7 +46,7 @@ jobs:
           #
           # The way we define variables above is a hack. See why: https://bit.ly/2ZEAt6u
 
-      - name: B) Build
+      - name: Build
         run: |
           # UAT is User Acceptance Testing
           echo "$(cat APP_NAME):uat" > TAG_UAT
@@ -59,19 +59,19 @@ jobs:
           #
           # build for Github Package Registry (GPR)
 
-      - name: C1) Test image with docker-library
+      - name: Test image with docker-library
         run: |
           git clone https://github.com/docker-library/official-images.git official-images
           official-images/test/run.sh $(cat TAG_UAT)
 
-      - name: C2) Test image with Aquasec microscanner
+      - name: Test image with Aquasec microscanner
         run: |
           wget --retry-connrefused --waitretry=1 --read-timeout=5 --timeout=5 --tries=10 https://raw.githubusercontent.com/lukebond/microscanner-wrapper/master/scan.sh && chmod +x scan.sh
           #
           echo "The build will stop only if it finds a critical issue"
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest -q --exit-code 1 --severity CRITICAL $(cat TAG_UAT)
 
-      - name: D1) Log / tags and variables
+      - name: Logs / All tags & variables
         run: |
           echo "Check out https://hub.docker.com/r/$(cat DOCKERHUB_USER)/$(cat APP_NAME)/tags"
           echo " "
@@ -93,7 +93,7 @@ jobs:
           echo "$(cat GITHUB_USER_APP) < GITHUB_USER_APP"
           echo "$(cat GITHUB_REGISTRY) < GITHUB_REGISTRY"
 
-      - name: D1) Log / docker (inspect, history, version, info), uname
+      - name: Logs / docker (inspect, history, version, info), uname
         run: |
           docker inspect $(cat TAG_UAT)
           docker history $(cat TAG_UAT)
@@ -101,7 +101,7 @@ jobs:
           docker info
           uname -a
 
-      - name: E) Publish
+      - name: Publish
         run: |
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login --username $(cat DOCKERHUB_USER) --password-stdin
           docker push $(cat TAG_BEST_PRACTICE)
@@ -122,7 +122,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: F1) Define our variables
+      - name: Define variables
         run: |
           echo "devmtl" > DOCKERHUB_USER
           cat Dockerfile | grep APP_NAME= | head -n 1 | grep -o '".*"' | sed 's/"//g' > APP_NAME
@@ -130,7 +130,7 @@ jobs:
       
       # Buggy at the moment :-(
       #
-      #- name: F2) Update Dockerhub's Full Description
+      #- name: Push Full Description on Dockerhub
       #  uses: docker://mpepping/docker-hub-metadata-github-action
       #  env:
       #    IMAGE: $(cat DOCKER_USER_APP)
@@ -144,7 +144,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: G) Afterbuild (brainstorm & use cases)
+      - name: Afterbuild (brainstorm & use cases)
         run: |
           echo " "
           # echo "brainstorm/ notify succes on slack"
