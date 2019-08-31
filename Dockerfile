@@ -8,9 +8,9 @@ ARG GIT_REPO_SOURCE="null"
 # by Pascal Andy | https://pascalandy.com/blog/now/
 
 # ----------------------------------------------
-# BUILDER LAYER
+# FINAL LAYER
 # ----------------------------------------------
-FROM alpine:${ALPINE_VERSION} AS builder
+FROM alpine:${ALPINE_VERSION} AS final
 
 ARG APP_NAME
 ARG VERSION
@@ -29,6 +29,7 @@ ENV SOURCE_COMMIT="$(git rev-parse --short HEAD)"
 RUN set -eux && apk --update --no-cache add \
     bash wget curl git openssl ca-certificates upx
 
+# Install custom apps
 RUN set -eux && apk --update --no-cache add \
     gzip \
     tar \
@@ -39,14 +40,12 @@ RUN set -eux && apk --update --no-cache add \
     openssh-client \
     jq \
     apache2-utils \
-    tzdata && \
-    \
-    cp /usr/share/zoneinfo/America/New_York /etc/localtime  && \
-    echo "America/New_York" > /etc/timezone                 && \
-    apk del tzdata                                          && \
-    \
-    update-ca-certificates                                  && \
-    rm -rf /var/cache/apk/* /tmp/*                          ;
+    rm -rf /var/cache/apk/* /tmp/*
+
+    # update time zone (but crash default official docker tests)
+    #cp /usr/share/zoneinfo/America/New_York /etc/localtime  && \
+    #echo "America/New_York" > /etc/timezone                 && \
+    #apk del tzdata                                          && \
 
 # Best practice credit: https://github.com/opencontainers/image-spec/blob/master/annotations.md
 LABEL org.opencontainers.image.title="${APP_NAME}"                                              \
