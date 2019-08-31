@@ -103,7 +103,7 @@ jobs:
 
       - name: E) Publish
         run: |
-          echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username $(cat DOCKERHUB_USER) --password-stdin
+          echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login --username $(cat DOCKERHUB_USER) --password-stdin
           docker push $(cat TAG_BEST_PRACTICE)
           docker push $(cat TAG_VERSION)
           docker push $(cat TAG_STABLE)
@@ -135,7 +135,7 @@ jobs:
       #  env:
       #    IMAGE: $(cat DOCKER_USER_APP)
       #    DOCKER_USERNAME: $(cat DOCKERHUB_USER)
-      #    DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      #    DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
 
   Job3:
     needs: job1
