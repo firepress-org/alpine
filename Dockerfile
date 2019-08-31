@@ -1,10 +1,11 @@
-
 ARG VERSION="3.10"
 ARG APP_NAME="alpine"
 ARG ALPINE_VERSION="3.10"
 ARG GIT_REPO_DOCKERFILE="https://github.com/firepress-org/alpine"
 ARG GIT_REPO_SOURCE="null"
 
+# GNU v3 | Please credit my work if you are re-using some of it :)
+# by Pascal Andy | https://pascalandy.com/blog/now/
 
 # ----------------------------------------------
 # BUILDER LAYER
