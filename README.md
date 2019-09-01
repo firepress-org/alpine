@@ -41,7 +41,7 @@ Alpine Linux was designed with security in mind. All userland binaries are compi
 ## Docker hub
 
 Always check on docker hub the most recent build:<br>
-[https://hub.docker.com/r/devmtl/rclone/tags](https://hub.docker.com/r/devmtl/noti/tags)
+[https://hub.docker.com/r/devmtl/rclone/tags](https://hub.docker.com/r/devmtl/alpine/tags)
 
 You should use **this tag format** `$VERSION_$DATE_$HASH-COMMIT` in production.
 
