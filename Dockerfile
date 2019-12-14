@@ -1,16 +1,36 @@
 ARG VERSION="3.10"
 ARG APP_NAME="alpine"
+ARG GIT_PROJECT_NAME="alpine"
+
 ARG ALPINE_VERSION="3.10"
-ARG GIT_REPO_DOCKERFILE="https://github.com/firepress-org/alpine"
+ARG GIT_REPO_DOCKERFILE="null"
 ARG GIT_REPO_SOURCE="null"
 
+# Those vars are used broadly outside this Dockerfile
+# Github Action CI and release script (./utility.sh) is consuming these variables.
 # GNU v3 | Please credit my work if you are re-using some of it :)
 # by Pascal Andy | https://pascalandy.com/blog/now/
+
+
+# ----------------------------------------------
+# BASE IMAGE VERSIONNING LAYER
+# ----------------------------------------------
+FROM alpine:${ALPINE_VERSION} AS myalpine
+# Credit to Tõnis Tiigi / https://bit.ly/2RoCmvG
+
+
+# ----------------------------------------------
+# UPGRADE LAYER
+# The point is to keep trace of logs our CI
+# ----------------------------------------------
+FROM myalpine AS what-to-upgrade
+RUN apk update && apk upgrade
+
 
 # ----------------------------------------------
 # FINAL LAYER
 # ----------------------------------------------
-FROM alpine:${ALPINE_VERSION} AS final
+FROM myalpine AS final
 
 ARG APP_NAME
 ARG VERSION
@@ -39,8 +59,7 @@ RUN set -eux && apk --update --no-cache add \
     nano \
     openssh-client \
     jq \
-    apache2-utils \
-    rm -rf /var/cache/apk/* /tmp/*
+    apache2-utils
 
     # update time zone (but crash default official docker tests)
     #cp /usr/share/zoneinfo/America/New_York /etc/localtime  && \
