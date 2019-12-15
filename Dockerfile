@@ -2,7 +2,7 @@
 ###################################
 # REQUIRED BY OUR GITHUB ACTION CI
 ###################################
-ARG VERSION="3.10-C"
+ARG VERSION="3.10-A"
 ARG APP_NAME="alpine"
 ARG GIT_PROJECT_NAME="alpine"
 
