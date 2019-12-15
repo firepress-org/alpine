@@ -12,30 +12,31 @@ Based on this [template](https://gist.github.com/pascalandy/af709db02d3fe132a3e6
 
 # Releases
 
-## 3.10-B
+## 3.10-A
 ### ⚡️ Updates
-- db63b83b Updated to version: 3.10-B
-- a62bf0e0 Updated to version: 3.10-A
-- 762b9fe5 Add test dir
-- 6a8960ff fix missing VAR in Dockerfile
-- ef74a963 force ci build
-- b76dc381 update yaml ci
-- 160a9854 add passgen
-- 90372dae CI / Add readme-to-dockerhub + Add Slack notification
-- f7e29ee0 CI / docker history with --no-trunc
-- 4977c92e Fix URL in README
-- bc4f755b CI / Improve the order of the push to registry
-- f9892b78 Init README
-- 8e0e8f26 Init README-CI
-- 9e49fa97 Improve comments
-- 557a1347 Update variable name
-- 7a44847c Optimized out CI by make it shorter
-- 57c30f4e Init bin and random scripts
-- 2eccb0b3 update gitignore
-- 8fe32abd remove tzdata / fix ca-certificates
-- 93964f95 Improve comments
-- 99d3a32d Improve comments, minimize test layer nbr
-- 45dbd241 init docker_build_ci.yml
-- 9109434e Init runup.sh
-- dfc03910 Init Dockerfile
-- 6bda9370 Initial commit
+25e48f4 Updated to version: 3.10-A
+ab363b4 Updated to version: 3.10-A / squashed
+762b9fe Add test dir
+6a8960f fix missing VAR in Dockerfile
+ef74a96 force ci build
+b76dc38 update yaml ci
+160a985 add passgen
+90372da CI / Add readme-to-dockerhub + Add Slack notification
+f7e29ee CI / docker history with --no-trunc
+4977c92 Fix URL in README
+bc4f755 CI / Improve the order of the push to registry
+f9892b7 Init README
+8e0e8f2 Init README-CI
+9e49fa9 Improve comments
+557a134 Update variable name
+7a44847 Optimized out CI by make it shorter
+57c30f4 Init bin and random scripts
+2eccb0b update gitignore
+8fe32ab remove tzdata / fix ca-certificates
+93964f9 Improve comments
+99d3a32 Improve comments, minimize test layer nbr
+45dbd24 init docker_build_ci.yml
+9109434 Init runup.sh
+dfc0391 Init Dockerfile
+6bda937 Initial commit
+
