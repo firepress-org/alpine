@@ -1,16 +1,28 @@
+
+###################################
+# REQUIRED BY OUR GITHUB ACTION CI
+###################################
 ARG VERSION="3.10"
 ARG APP_NAME="alpine"
 ARG GIT_PROJECT_NAME="alpine"
 
+ARG DOCKERHUB_USER="devmtl"
+ARG GITHUB_USER="firepress"
+ARG GITHUB_ORG="firepress-org"
+ARG GITHUB_REGISTRY="registry"
+
+ARG GIT_REPO_DOCKERFILE="https://github.com/firepress-org/alpine"
+ARG GIT_REPO_SOURCE="https://github.com/alpinelinux/docker-alpine"
+
+###################################
+# REQUIRED BY THIS SPECIFIC BUILD
+###################################
 ARG ALPINE_VERSION="3.10"
-ARG GIT_REPO_DOCKERFILE="null"
-ARG GIT_REPO_SOURCE="null"
 
 # Those vars are used broadly outside this Dockerfile
 # Github Action CI and release script (./utility.sh) is consuming these variables.
 # GNU v3 | Please credit my work if you are re-using some of it :)
 # by Pascal Andy | https://pascalandy.com/blog/now/
-
 
 # ----------------------------------------------
 # BASE IMAGE VERSIONNING LAYER
