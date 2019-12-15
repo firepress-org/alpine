@@ -16,7 +16,7 @@ ARG GIT_REPO_SOURCE="null"
 # BASE IMAGE VERSIONNING LAYER
 # ----------------------------------------------
 FROM alpine:${ALPINE_VERSION} AS myalpine
-# Credit to Tõnis Tiigi / https://bit.ly/2RoCmvG
+#  Credit to Tõnis Tiigi / https://bit.ly/2RoCmvG
 
 
 # ----------------------------------------------
