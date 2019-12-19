@@ -71,7 +71,6 @@ RUN set -eux && apk --update --no-cache add \
     nano \
     openssh-client \
     jq \
-    htpasswd \
     apache2-utils
 
     # update time zone (but crash default official docker tests)
