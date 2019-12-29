@@ -2,7 +2,7 @@
 ###################################
 # REQUIRED BY OUR GITHUB ACTION CI
 ###################################
-ARG VERSION="3.10-A"
+ARG VERSION="3.11"
 ARG APP_NAME="alpine"
 ARG GIT_PROJECT_NAME="alpine"
 
@@ -14,11 +14,6 @@ ARG GITHUB_REGISTRY="registry"
 ARG GIT_REPO_DOCKERFILE="https://github.com/firepress-org/alpine"
 ARG GIT_REPO_SOURCE="https://github.com/alpinelinux/docker-alpine"
 
-###################################
-# REQUIRED BY THIS SPECIFIC BUILD
-###################################
-ARG ALPINE_VERSION="3.10"
-
 # Those vars are used broadly outside this Dockerfile
 # Github Action CI and release script (./utility.sh) is consuming these variables.
 # GNU v3 | Please credit my work if you are re-using some of it :)
@@ -27,7 +22,7 @@ ARG ALPINE_VERSION="3.10"
 # ----------------------------------------------
 # BASE IMAGE VERSIONNING LAYER
 # ----------------------------------------------
-FROM alpine:${ALPINE_VERSION} AS myalpine
+FROM alpine:${VERSION} AS myalpine
 #  Credit to Tõnis Tiigi / https://bit.ly/2RoCmvG
 
 # ----------------------------------------------
@@ -38,16 +33,6 @@ FROM myalpine AS what-to-upgrade
 RUN apk update && apk upgrade
 
 # ----------------------------------------------
-# qrencode is not available via alpine
-# ----------------------------------------------
-FROM debian:10.2 as debian
-RUN apt-get update && \
-    apt-get install qrencode -qqy && \
-    which qrencode
-
-
-
-# ----------------------------------------------
 # FINAL LAYER
 # ----------------------------------------------
 FROM myalpine AS final
@@ -55,22 +40,35 @@ FROM myalpine AS final
 ARG APP_NAME
 ARG VERSION
 ARG GIT_REPO
-ARG ALPINE_VERSION
 
 ENV APP_NAME="${APP_NAME}"
 ENV VERSION="${VERSION}"
 ENV GIT_REPO_DOCKERFILE="${GIT_REPO_DOCKERFILE}"
-ENV ALPINE_VERSION="${ALPINE_VERSION}"
 
 ENV CREATED_DATE="$(date "+%Y-%m-%d_%HH%Ms%S")"
 ENV SOURCE_COMMIT="$(git rev-parse --short HEAD)"
 
+
+RUN set -eux && \
+
 # Install common utilities
-RUN set -eux && apk --update --no-cache add \
-    bash wget curl git openssl ca-certificates upx
+apk --update --no-cache add \
+    bash \
+    wget \
+    curl \
+    git \
+    openssl \
+    ca-certificates \
+    upx && \
+
+# Set time zone
+    cp /usr/share/zoneinfo/America/New_York /etc/localtime  && \
+    echo "America/New_York" > /etc/timezone                 && \
+    apk del tzdata                                          && \
+    # update time zone (but crash default official docker tests)
 
 # Install custom apps
-RUN set -eux && apk --update --no-cache add \
+    apk --update --no-cache add \
     gzip \
     tar \
     unzip \
@@ -82,11 +80,6 @@ RUN set -eux && apk --update --no-cache add \
     pwgen \
     apache2-utils
 
-    # update time zone (but crash default official docker tests)
-    #cp /usr/share/zoneinfo/America/New_York /etc/localtime  && \
-    #echo "America/New_York" > /etc/timezone                 && \
-    #apk del tzdata                                          && \
-
 # Best practice credit: https://github.com/opencontainers/image-spec/blob/master/annotations.md
 LABEL org.opencontainers.image.title="${APP_NAME}"                                              \
       org.opencontainers.image.version="${VERSION}"                                             \
@@ -97,15 +90,12 @@ LABEL org.opencontainers.image.title="${APP_NAME}"                              
       org.opencontainers.image.source="${GIT_REPO_DOCKERFILE}"                                  \
       org.opencontainers.image.licenses="GNUv3. See README.md"                                  \
       org.firepress.image.user="root"                                                           \
-      org.firepress.image.alpineversion="{ALPINE_VERSION}"                                      \
+      org.firepress.image.alpineversion="{VERSION}"                                             \
       org.firepress.image.field1="not_set"                                                      \
       org.firepress.image.field2="not_set"                                                      \
       org.firepress.image.schemaversion="1.0"
 
 # Copy my bash scripts
 COPY bin /usr/local/bin
-
-# Copy from debian
-COPY --from=debian /usr/bin/qrencode /usr/bin/
 
 WORKDIR /usr/local/bin
