@@ -16,5 +16,8 @@ clear
 
 echo && echo && \
 docker run --rm -it \
--v $(pwd)/bin/:/usr/local/bin/ \
 ${IMG_alpine} sh
+
+#docker run --rm -it \
+#-v $(pwd)/bin/:/usr/local/bin/ \
+#${IMG_alpine} sh
