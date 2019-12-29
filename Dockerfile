@@ -30,13 +30,21 @@ ARG ALPINE_VERSION="3.10"
 FROM alpine:${ALPINE_VERSION} AS myalpine
 #  Credit to Tõnis Tiigi / https://bit.ly/2RoCmvG
 
-
 # ----------------------------------------------
 # UPGRADE LAYER
 # The point is to keep trace of logs our CI
 # ----------------------------------------------
 FROM myalpine AS what-to-upgrade
 RUN apk update && apk upgrade
+
+# ----------------------------------------------
+# qrencode is not available via alpine
+# ----------------------------------------------
+FROM debian:10.2 as debian
+RUN apt-get update && \
+    apt-get install qrencode -qqy && \
+    which qrencode
+
 
 
 # ----------------------------------------------
@@ -71,6 +79,7 @@ RUN set -eux && apk --update --no-cache add \
     nano \
     openssh-client \
     jq \
+    pwgen \
     apache2-utils
 
     # update time zone (but crash default official docker tests)
@@ -93,7 +102,10 @@ LABEL org.opencontainers.image.title="${APP_NAME}"                              
       org.firepress.image.field2="not_set"                                                      \
       org.firepress.image.schemaversion="1.0"
 
-# Coyy my bash scripts
-COPY bin /usr/local/bin/
+# Copy my bash scripts
+COPY bin /usr/local/bin
 
-WORKDIR /
+# Copy from debian
+COPY --from=debian /usr/bin/qrencode /usr/bin/
+
+WORKDIR /usr/local/bin
