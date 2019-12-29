@@ -50,24 +50,24 @@ ENV SOURCE_COMMIT="$(git rev-parse --short HEAD)"
 
 
 RUN set -eux && \
-
-# Install common utilities
-apk --update --no-cache add \
+echo "# Install common utilities" && \
+    apk --update --no-cache add \
     bash \
     wget \
     curl \
     git \
     openssl \
     ca-certificates \
+    tzdata \
     upx && \
-
-# Set time zone
+    \
+echo "# Set time zone" && \
     cp /usr/share/zoneinfo/America/New_York /etc/localtime  && \
     echo "America/New_York" > /etc/timezone                 && \
     apk del tzdata                                          && \
     # update time zone (but crash default official docker tests)
-
-# Install custom apps
+    \
+echo "# Install custom apps" && \
     apk --update --no-cache add \
     gzip \
     tar \
