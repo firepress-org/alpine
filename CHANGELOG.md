@@ -12,6 +12,15 @@ Based on this [template](https://gist.github.com/pascalandy/af709db02d3fe132a3e6
 
 # Releases
 
+## 3.11
+### ⚡️ Updates
+071213a FIX tzdata
+f515859 rollback without qrencode + update to Alpine 3.11
+2c5ff61 Add run-edge.sh
+b614833 Add qrencode
+ca65586 rollback
+3b4b496 add htpasswd
+
 ## 3.10-A
 ### ⚡️ Updates
 25e48f4 Updated to version: 3.10-A
