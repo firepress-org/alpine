@@ -34,6 +34,10 @@ Alpine Linux was designed with security in mind. All userland binaries are compi
 
 ## Regarding Github Actions & CI configuration
 
+![ci_dockerfile_not_master](https://github.com/firepress-org/alpine/workflows/ci_dockerfile_not_master/badge.svg?branch=master)
+
+![ci_dockerfile_not_master](https://github.com/firepress-org/alpine/workflows/ci_dockerfile_not_master/badge.svg?branch=edge)
+
 [See README-CI.md](./README-CI.md)
 
 <br>
