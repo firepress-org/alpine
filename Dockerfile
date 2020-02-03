@@ -51,6 +51,7 @@ echo "### Install common utilities" && \
     git \
     openssl \
     ca-certificates \
+    update-ca-certificates \
     tzdata \
     upx && \
     \
@@ -71,7 +72,9 @@ echo "### Install custom apps" && \
     openssh-client \
     jq \
     pwgen \
-    apache2-utils
+    apache2-utils && \
+echo "### clean cache" && \
+    rm -rvf /var/cache/apk/*;
 
 # Best practice credit: https://github.com/opencontainers/image-spec/blob/master/annotations.md
 LABEL org.opencontainers.image.title="${APP_NAME}"                                              \
@@ -99,7 +102,10 @@ WORKDIR /usr/local/bin
 # ----------------------------------------------
 FROM alpine-prebuild AS alpine-upgraded
 RUN set -eux && \
-    apk upgrade
+    apk update && \
+    apk upgrade && \
+    rm -rvf /var/cache/apk/*;
+
 
 # ----------------------------------------------
 # multistage #4)
