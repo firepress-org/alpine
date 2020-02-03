@@ -20,7 +20,7 @@ ARG GIT_REPO_SOURCE="https://github.com/alpinelinux/docker-alpine"
 #   manage base image(s) versioning
 #   credit to Tõnis Tiigi / https://bit.ly/2RoCmvG
 # ----------------------------------------------
-FROM alpine:${ALPINE_VERSION} AS myalpine
+FROM alpine:${VERSION} AS myalpine
 
 # ----------------------------------------------
 # multistage #2)
