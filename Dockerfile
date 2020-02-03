@@ -51,7 +51,6 @@ echo "### Install common utilities" && \
     git \
     openssl \
     ca-certificates \
-    update-ca-certificates \
     tzdata \
     upx && \
     \
