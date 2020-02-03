@@ -103,7 +103,9 @@ FROM alpine-prebuild AS alpine-upgraded
 RUN set -eux && \
     apk update && \
     apk upgrade && \
-    rm -rv /var/cache/apk/*
+    rm -rv /var/cache/apk/* && \
+echo "### run unit test" && \
+    ./unit-test.sh
 
 
 # ----------------------------------------------
