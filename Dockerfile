@@ -104,7 +104,7 @@ FROM alpine-prebuild AS alpine-upgraded
 RUN set -eux && \
     apk update && \
     apk upgrade && \
-    rm -rvf /var/cache/apk/*;
+    rm -rv /var/cache/apk/*
 
 
 # ----------------------------------------------
