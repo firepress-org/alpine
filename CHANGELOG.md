@@ -12,6 +12,18 @@ Based on this [template](https://gist.github.com/pascalandy/af709db02d3fe132a3e6
 
 # Releases
 
+## 3.11.1 (2020-02-25)
+### ⚡️ Updates
+- [5009c52](https://github.com/firepress/alpine/commit/5009c52) 3.11.1
+- [3416e62](https://github.com/firepress/alpine/commit/3416e62) CI yml updates / standard across all docker projects
+- [b6a7b3b](https://github.com/firepress/alpine/commit/b6a7b3b) update badge
+- [0e6b49b](https://github.com/firepress/alpine/commit/0e6b49b) update badge
+- [3022ae7](https://github.com/firepress/alpine/commit/3022ae7) FEAT: Improve multi-stage, FIX var, add badge to readme /squash
+- [edeb724](https://github.com/firepress/alpine/commit/edeb724) add badges to readme
+- [54dfd64](https://github.com/firepress/alpine/commit/54dfd64) remove unit-test
+- [38294d4](https://github.com/firepress/alpine/commit/38294d4) add unit-test
+- [3a14e3e](https://github.com/firepress/alpine/commit/
+
 ## 3.11
 ### ⚡️ Updates
 071213a FIX tzdata
