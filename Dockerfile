@@ -3,7 +3,7 @@
 # REQUIRED BY OUR GITHUB ACTION CI
 # ----------------------------------------------
 # These vars are used outside this Dockerfile by our CI.
-ARG VERSION="3.11"
+ARG VERSION="3.11.1"
 ARG APP_NAME="alpine"
 ARG GIT_PROJECT_NAME="alpine"
 
@@ -13,6 +13,10 @@ ARG GITHUB_ORG="firepress-org"
 ARG GITHUB_REGISTRY="registry"
 
 ARG GIT_REPO_DOCKERFILE="https://github.com/firepress-org/alpine"
+
+###################################
+# REQUIRED BY THIS SPECIFIC BUILD (start you Dockerile from here if any)
+###################################
 ARG GIT_REPO_SOURCE="https://github.com/alpinelinux/docker-alpine"
 
 # ----------------------------------------------

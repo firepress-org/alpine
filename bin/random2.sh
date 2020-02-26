@@ -12,7 +12,7 @@ set -o nounset
 # FUNCTIONS       #
 # --- # --- # --- #
 
-# Don't want 0 O I l o i characters that look the same in some fonts and
+# Cut 0 O I l o i characters that look the same in some fonts and
 
 grp1=$(openssl rand -base64 32 | sed 's/[^123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz]//g' | cut -c11-14) && \
 grp2=$(openssl rand -base64 32 | sed 's/[^123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz]//g' | cut -c2-25) && \
