@@ -12,6 +12,13 @@ Based on this [template](https://gist.github.com/pascalandy/af709db02d3fe132a3e6
 
 # Releases
 
+## 3.11 (2020-02-26)
+### ⚡️ Updates
+- [38e8a10](https://github.com/firepress/alpine/commit/38e8a10) FIX dockerfile version
+
+### 🔍 Compare
+- ... with previous release: [ <> 3.11](https://github.com/firepress/alpine/compare/...3.11)
+
 ## 3.11.2 (2020-02-25)
 ### ⚡️ Updates
 - [61b3b3d](https://github.com/firepress/alpine/commit/61b3b3d) Update alpine to version 3.11.2 /Dockerfile
