@@ -12,6 +12,14 @@ Based on this [template](https://gist.github.com/pascalandy/af709db02d3fe132a3e6
 
 # Releases
 
+## 3.11.2 (2020-02-25)
+### ⚡️ Updates
+- [61b3b3d](https://github.com/firepress/alpine/commit/61b3b3d) Update alpine to version 3.11.2 /Dockerfile
+- [b606da2](https://github.com/firepress/alpine/commit/b606da2) Update random7.sh
+
+### 🔍 Compare
+- ... with previous release: [ <> 3.11.2](https://github.com/firepress/alpine/compare/...3.11.2)
+
 ## 3.11.1 (2020-02-25)
 ### ⚡️ Updates
 - [5009c52](https://github.com/firepress/alpine/commit/5009c52) 3.11.1
