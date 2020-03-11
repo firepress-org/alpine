@@ -4,6 +4,9 @@ clear &&\
 
 echo && echo "lenght=52" &&\
 
+# init a dummy file
+touch ~/tmp/id_ed25519
+
 for lineID in $(seq 1 8); do
 
   # generate keys
