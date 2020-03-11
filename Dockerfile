@@ -3,7 +3,7 @@
 # ----------------------------------------------
 # These vars are used outside this Dockerfile by our CI.
 ARG VERSION="3.11"
-ARG RELEASE="3.11"
+ARG RELEASE="3.11-rc3"
 ARG APP_NAME="alpine"
 ARG GIT_PROJECT_NAME="alpine"
 
