@@ -12,6 +12,18 @@ Based on this [template](https://gist.github.com/pascalandy/af709db02d3fe132a3e6
 
 # Releases
 
+## 3.11-rc3 (2020-03-11)
+### ⚡️ Updates
+- [6e8e2c3](https://github.com/firepress/alpine/commit/6e8e2c3) Init random8.sh
+- [c351c73](https://github.com/firepress/alpine/commit/c351c73) init random8.sh /c
+- [099a1cd](https://github.com/firepress/alpine/commit/099a1cd) init random8.sh /b
+- [752bedd](https://github.com/firepress/alpine/commit/752bedd) init random8.sh
+- [dec5798](https://github.com/firepress/alpine/commit/dec5798) Update changelog
+- [38e8a10](https://github.com/firepress/alpine/commit/38e8a10) FIX dockerfile version
+
+### 🔍 Compare
+- ... with previous release: [ <> 3.11-rc3](https://github.com/firepress/alpine/compare/...3.11-rc3)
+
 ## 3.11 (2020-02-26)
 ### ⚡️ Updates
 - [38e8a10](https://github.com/firepress/alpine/commit/38e8a10) FIX dockerfile version
