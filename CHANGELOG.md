@@ -12,6 +12,13 @@ Based on this [template](https://gist.github.com/pascalandy/af709db02d3fe132a3e6
 
 # Releases
 
+## 3.12 (2021-05-06)
+### ⚡️ Updates
+- [c909809](https://github.com/firepress/alpine/commit/c909809) update to v3.12
+
+### 🔍 Compare
+- ... with previous release: [ <> 3.12](https://github.com/firepress/alpine/compare/...3.12)
+
 ## 3.11-rc3 (2020-03-11)
 ### ⚡️ Updates
 - [6e8e2c3](https://github.com/firepress/alpine/commit/6e8e2c3) Init random8.sh
