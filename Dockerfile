@@ -2,8 +2,8 @@
 # REQUIRED BY OUR GITHUB ACTION CI
 # ----------------------------------------------
 # These vars are used outside this Dockerfile by our CI.
-ARG VERSION="3.13"
-ARG RELEASE="3.13"
+ARG VERSION="3.12"
+ARG RELEASE="3.12"
 ARG APP_NAME="alpine"
 ARG GIT_PROJECT_NAME="alpine"
 
